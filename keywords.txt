@@ -1,0 +1,24 @@
+#######################################
+# Syntax Coloring Map For looper
+####################################### 
+# Datatypes (KEYWORD1)
+#######################################
+
+looper	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+addJob	KEYWORD2
+myDelay	KEYWORD2
+removeJob	KEYWORD2
+pauseJob	KEYWORD2
+restartJob	KEYWORD2
+scheduler	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+ONE_TIME LITERAL1
