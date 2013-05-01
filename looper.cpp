@@ -30,7 +30,7 @@ looper::looper(void) {
 //add a job to the scheduler
 uint8_t looper::addJob(void (*userJob)(void), unsigned long jobInterval, uint8_t oneTimeJob) {
 	if (_numJobs == MAX_JOBS) { //max number of allowed jobs reached
-		return 1; 
+		return 1;
 	}
 
 	if ((jobInterval < 1) || (jobInterval > 3600000UL)) { //set your max interval here (max 2^32-1) - default 3600000 (1 hour)
@@ -52,8 +52,8 @@ uint8_t looper::addJob(void (*userJob)(void), unsigned long jobInterval, uint8_t
 //pause a specific job
 uint8_t looper::pauseJob(void (*userJob)(void)) {
     return (setJob(userJob, 0));
-}            
-	
+}
+
 
 //restart a specific job
 uint8_t looper::restartJob(void (*userJob)(void)) {
@@ -66,16 +66,16 @@ uint8_t looper::setJob(void (*userJob)(void), uint8_t tempStatus, unsigned long 
     if (_numJobs == 0) {
 		return 1;
 	}
-    
+
 	uint8_t tempI = 0;
 	do {
         if (_jobs[tempI].jobPointer == *userJob) {
             _jobs[tempI].jobIsActive = tempStatus;
-            if (tempStatus == 1) { 
+            if (tempStatus == 1) {
 				if (jobInterval == 0) {
-					_jobs[_numJobs].plannedJob = millis() + _jobs[tempI].userJobInterval;
+					_jobs[tempI].plannedJob = millis() + _jobs[tempI].userJobInterval;
 				} else {
-					_jobs[_numJobs].plannedJob = millis() + jobInterval;
+					_jobs[tempI].plannedJob = millis() + jobInterval;
 				}
 			}
             break;
@@ -84,7 +84,7 @@ uint8_t looper::setJob(void (*userJob)(void), uint8_t tempStatus, unsigned long 
     }
 	} while (tempI <= _numJobs);
     return 0;
-}    
+}
 
 
 //remove a job from the scheduler
@@ -92,11 +92,11 @@ uint8_t looper::removeJob(void (*userJob)(void)) {
 	if (_numJobs == 0) {
 		return 1;
 	}
-    
+
 	uint8_t tempI = 0;
 	do {
 		if (_jobs[tempI].jobPointer == *userJob) {
-            if ((tempI + 1) == _numJobs) { 
+            if ((tempI + 1) == _numJobs) {
                 _numJobs--;
             } else if (_numJobs > 1) {
                 for (uint8_t tempJ = tempI; tempJ < _numJobs; tempJ++) {
@@ -117,19 +117,18 @@ uint8_t looper::removeJob(void (*userJob)(void)) {
     return 0;
 }
 
-        
+
 //this is the simple scheduler that checks if a routine must be executed
 void looper::scheduler() {
 
     unsigned long _tempMillis = millis();
-	uint8_t tempI = 0;	
+	uint8_t tempI = 0;
 	do {
-		if (_jobs[tempI].jobIsActive > 0 ) { //the job is running  
-			//if ((long)(_tempMillis - _jobs[tempI].plannedJob) >= 0) { //time has come to get run it away!
+		if (_jobs[tempI].jobIsActive > 0 ) { //the job is running
 			if (_tempMillis - _jobs[tempI].plannedJob > _jobs[tempI].userJobInterval) { //time has come to get run it away!
-				_jobs[tempI].jobPointer(); //call the job
                 if (_jobs[tempI].jobIsActive == 2) { //this is a one-time job
-                    if ((tempI + 1) == _numJobs) { 
+					_jobs[tempI].jobPointer(); //call the job
+                    if ((tempI + 1) == _numJobs) {
                         _numJobs--;
                     } else if (_numJobs > 1) {
                         for (uint8_t tempJ = tempI; tempJ < _numJobs; tempJ++) {
@@ -143,8 +142,8 @@ void looper::scheduler() {
                         _numJobs = 0;
                     }
                 } else {
-                    //_jobs[tempI].plannedJob = _tempMillis + _jobs[tempI].userJobInterval;
                     _jobs[tempI].plannedJob = _tempMillis;
+                    _jobs[tempI].jobPointer(); //call the job
                 }
 			}
 		}
@@ -161,4 +160,4 @@ void looper::myDelay(unsigned long myPause) {
 		scheduler();
 	}
 }
-		
+

@@ -1,14 +1,14 @@
 /*
 	looper - a simple routines' launcher
-    
-	looper is a library for Atmel microcontrollers and Arduino boards that 
+
+	looper is a library for Atmel microcontrollers and Arduino boards that
     starts user's routines (or "jobs") at fixed intervals. It doesn't require
     any interrupt but just relies inside the loop() function of your sketch
     and uses millis() to execute the jobs (it doesn't suffer the millis()
     overflow issue).
 
 	Written by Leonardo Miliani <leonardo AT leonardomiliani DOT com>
-	
+
 	Current versin:
 	v. 1.0:  millis overflow management - new method syntaxes to be compatible with leOS
 
@@ -31,7 +31,7 @@
 #define looper_H
 
 //library version
-#define looper_VERSION 100
+#define looper_VERSION 101
 
 //Library is compatible both with Arduino <=0023 and Arduino >=100
 #if defined(ARDUINO) && (ARDUINO >= 100)
@@ -43,7 +43,7 @@
 const uint8_t ONE_TIME = 1;
 
 class looper {
-	public: 
+	public:
 		//public methods
 		looper();
         //void begin(void);
