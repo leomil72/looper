@@ -1,7 +1,7 @@
 ******** looper.h  *******
 
 looper - a simple scheduler to execute little jobs
-
+  
 looper is a library for Atmel microcontrollers and Arduino boards that
 starts user's routines at fixed intervals. It doesn't require any interrupt
 but just relies inside the loop() function of your sketch.
@@ -18,7 +18,7 @@ Written by Leonardo Miliani <leonardo AT leonardomiliani DOT com>
 ***********************
 VERSION HISTORY
 
-v. 1.0.1: little bugs fixed
+v. 1.0.1: fixed a bug into the scheduler that lead to execute the last job if they all were one-time jobs
 v. 1.0:   millis overflow management - new method syntaxes to be compatible with leOS
 v. 0.1:   first release
 
@@ -41,7 +41,7 @@ void setup() {
 
 yourFunction must be a routine that is inside your sketch. scheduleTime is
 the scheduled interval in milliseconds at which you want your routine
-to be executed.
+to be executed. 
 
 To start the scheduler to check and execute your jobs you have to put
 the call to .scheduler() in any point of the loop() routine.
@@ -95,9 +95,9 @@ the planned intervals won't be respected.
 ***********************
 LICENSE
 
-This library is free software; you can redistribute it and/or modify it under
-the terms of the GNU General Public	License as published by the Free Software
-Foundation; either version 3.0 of the License, or (at your option) any later
+This library is free software; you can redistribute it and/or modify it under 
+the terms of the GNU General Public	License as published by the Free Software 
+Foundation; either version 3.0 of the License, or (at your option) any later 
 version.
 
 This library is distributed in the hope that it will be useful,
@@ -109,4 +109,4 @@ General Public License for more details.
 ***********************
 DOCUMENT REVISION
 
-3rd revision: 2013/05/01
+2nd revision: 2013/04/01
