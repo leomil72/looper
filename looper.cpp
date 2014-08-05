@@ -128,46 +128,40 @@ uint8_t looper::removeJob(void (*userJob)(void)) {
 
         
 //this is the simple scheduler that checks if a routine must be executed
+//(code fixing by Dave Parson on 2014/08/05)
 void looper::scheduler() {
 
-	//check if the jobs list is empty
-	if (_numJobs == 0) {
-		return;
-	}
-	
-    unsigned long _tempMillis = millis();
-	uint8_t tempI = 0;	
-	do {
-		if (_jobs[tempI].jobIsActive > 0 ) { //the job is running  
-			//if ((long)(_tempMillis - _jobs[tempI].plannedJob) >= 0) { //time has come to get run it away!
-			if (_tempMillis - _jobs[tempI].plannedJob > _jobs[tempI].userJobInterval) { //time has come to get run it away!
-				_jobs[tempI].jobPointer(); //call the job
-                if (_jobs[tempI].jobIsActive == 2) { //this is a one-time job - I have to remove it
-					//if it's the last job in the list, I simply decrement the # of jobs
-                    if ((tempI + 1) == _numJobs) { 
-                        _numJobs--;
-					//otherwise, I check if there is more than 1 job...
-                    } else if (_numJobs > 1) {
-						//move the jobs to 1 position to the left
-                        for (uint8_t tempJ = tempI; tempJ < _numJobs; tempJ++) {
-                            _jobs[tempJ].jobPointer = _jobs[tempJ + 1].jobPointer;
-                            _jobs[tempJ].jobIsActive = _jobs[tempJ + 1].jobIsActive;
-                            _jobs[tempJ].userJobInterval = _jobs[tempJ + 1].userJobInterval;
-                            _jobs[tempJ].plannedJob = _jobs[tempJ + 1].plannedJob;
-                        }
-                        _numJobs -= 1;
-                    } else {
-						//or not.. in this case, I simply set the # of jobs to 0
-                        _numJobs = 0;
-                    }
-                } else {
-                    //this is a normal job - set the next time to execute it
-                    _jobs[tempI].plannedJob = _tempMillis;
-                }
-			}
-		}
-	tempI++;
-	} while (tempI < _numJobs);
+  //check if the jobs list is empty
+  if (_numJobs == 0) {
+    return;
+  }
+  
+  unsigned long _tempMillis = millis();
+  uint8_t tempI = 0;
+  void (*savedJobPointer)(void);
+  
+  do {
+    if (_jobs[tempI].jobIsActive > 0 ) { //the job is running  
+      if (_tempMillis - _jobs[tempI].plannedJob > _jobs[tempI].userJobInterval) { //time has come to make it run!
+        if (_jobs[tempI].jobIsActive == 2) { //one-time job, we'll run and then remove it
+          savedJobPointer = _jobs[tempI].jobPointer;
+          savedJobPointer(); //call the job
+          tempI = 0; //re-determine the job's position in the array in case it has changed
+          do {
+            if (_jobs[tempI].jobPointer == savedJobPointer) //found it
+              break;
+            else
+              tempI++;
+          } while (tempI <= _numJobs);
+          removeJob(savedJobPointer); // remove the one-time job
+        } else { //normal job
+          _jobs[tempI].jobPointer(); //call the job
+          _jobs[tempI].plannedJob = _tempMillis; //set the next time to execute it
+        }
+      }
+    }
+    tempI++;
+  } while (tempI < _numJobs);
 }
 
 
