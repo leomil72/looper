@@ -10,8 +10,7 @@
 	Written by Leonardo Miliani <leonardo AT leonardomiliani DOT com>
 	
 	Current versin:
-	v. 1.0.1: fixed a bug into the scheduler that lead to execute the last job if they all were one-time jobs
-	v. 1.0:   millis overflow management - new method syntaxes to be compatible with leOS
+	v. 1.1.1: added compatibility with Arduino IDE >= 1.6.7
 
 	The version history is available in the README file.
 
@@ -32,7 +31,7 @@
 #define looper_H
 
 //library version
-#define looper_VERSION 101
+#define looper_VERSION 111
 
 //Library is compatible both with Arduino <=0023 and Arduino >=100
 #if defined(ARDUINO) && (ARDUINO >= 100)

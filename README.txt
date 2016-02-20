@@ -18,6 +18,7 @@ Written by Leonardo Miliani <leonardo AT leonardomiliani DOT com>
 ***********************
 VERSION HISTORY
 
+v. 1.1.1: added compatibility with Arduino IDE >= 1.6.7
 v. 1.1.0: fixed a severe issue of the scheduler that in particular conditions lead to a failure of the process of adding/removing tasks from a one-time task (thanks to Dave Parson)
 v. 1.0.1: fixed a bug into the scheduler that lead to execute the last job if they all were one-time jobs
 v. 1.0:   millis overflow management - new method syntaxes to be compatible with leOS
@@ -110,4 +111,4 @@ General Public License for more details.
 ***********************
 DOCUMENT REVISION
 
-4th revision: 2014/08/05
+5th revision: 2016/02/20
