@@ -31,7 +31,7 @@
 #define looper_H
 
 //library version
-#define looper_VERSION 111
+#define looper_VERSION 112
 
 //Library is compatible both with Arduino <=0023 and Arduino >=100
 #if defined(ARDUINO) && (ARDUINO >= 100)
