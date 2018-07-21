@@ -21,4 +21,4 @@ scheduler	KEYWORD2
 # Constants (LITERAL1)
 #######################################
 
-ONE_TIME LITERAL1
+ONE_TIME	LITERAL1
